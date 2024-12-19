@@ -125,7 +125,7 @@ class SupabaseVectorStore(VectorStore):
         docs = self._texts_to_documents(texts, metadatas)
 
         vectors = self._embedding.embed_documents(list(texts))
-        return self.add_vectors(vectors, docs, ids)
+        return self.add_vectors(vectors, docs, ids, **kwargs)
 
     @classmethod
     def from_texts(
@@ -168,9 +168,10 @@ class SupabaseVectorStore(VectorStore):
         vectors: List[List[float]],
         documents: List[Document],
         ids: List[str],
+        **kwargs: Any,
     ) -> List[str]:
         return self._add_vectors(
-            self._client, self.table_name, vectors, documents, ids, self.chunk_size
+            self._client, self.table_name, vectors, documents, ids, self.chunk_size,**kwargs
         )
 
     def similarity_search(
